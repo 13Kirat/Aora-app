@@ -7,10 +7,10 @@ import {
 	Text,
 	View,
 } from "react-native";
+import { GetAllVideos, GetTrendingPosts } from "../../lib/appwrite";
 import React, { useEffect, useState } from "react";
 
 import EmptyState from "../../components/EmptyState";
-import { GetAllVideos } from "../../lib/appwrite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
@@ -21,6 +21,7 @@ import useAppwrite from "../../lib/useAppwrite";
 const Home = () => {
 	const [refreshing, setRefreshing] = useState(false);
 	const { data: posts, refetch } = useAppwrite(GetAllVideos);
+	const { data: latestPosts } = useAppwrite(GetTrendingPosts);
 	const onRefresh = async () => {
 		setRefreshing(true);
 		await refetch();
@@ -54,14 +55,12 @@ const Home = () => {
 
 						<SearchInput />
 
-						{posts.length > 0 && (
-							<View className="flex-1 w-full pt-5 pb-8">
-								<Text className="mb-3 text-lg text-gray-100 font-pregular">
-									Latest Videos
-								</Text>
-								<Trending posts={posts} />
-							</View>
-						)}
+						<View className="flex-1 w-full pt-5 pb-8">
+							<Text className="mb-3 text-lg text-gray-100 font-pregular">
+								Latest Videos
+							</Text>
+							<Trending posts={latestPosts} />
+						</View>
 					</View>
 				)}
 				ListEmptyComponent={() => (
