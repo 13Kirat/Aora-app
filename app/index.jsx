@@ -6,8 +6,11 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { images } from "../constants";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 export default function App() {
+	const { isLoading, isLoggedIn } = useGlobalContext();
+	if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
 	return (
 		<SafeAreaView className={"bg-primary h-full"}>
 			<ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -23,7 +26,7 @@ export default function App() {
 						resizeMode="contain"
 					/>
 					<View className="relative mt-3">
-						<Text className="text-3xl text-white text-center font-bold">
+						<Text className="text-3xl font-bold text-center text-white">
 							Discover Endless Possibilities With{" "}
 							<Text className="text-secondary-200">Aora</Text>
 						</Text>
@@ -33,7 +36,7 @@ export default function App() {
 							resizeMode="contain"
 						/>
 					</View>
-					<Text className="text-sm font-pregular text-gray-100 mt-10 text-center">
+					<Text className="mt-10 text-sm text-center text-gray-100 font-pregular">
 						Where creativity meets Innovation: embark on a journey
 						of limitless exploration with Aora
 					</Text>
