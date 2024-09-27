@@ -16,9 +16,11 @@ import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
 import VideoCard from "../../components/VideoCard";
 import images from "../../constants/images";
+import { useGlobalContext } from "../../context/GlobalProvider";
 import useAppwrite from "../../lib/useAppwrite";
 
 const Home = () => {
+	const { user, setUser, setIsLoggedIn } = useGlobalContext();
 	const [refreshing, setRefreshing] = useState(false);
 	const { data: posts, refetch } = useAppwrite(GetAllVideos);
 	const { data: latestPosts } = useAppwrite(GetTrendingPosts);
@@ -38,10 +40,10 @@ const Home = () => {
 						<View className="flex-row items-start justify-between mb-6">
 							<View>
 								<Text className="text-sm text-gray-100 font-pmedium">
-									Welcome Back
+									Welcome back,
 								</Text>
 								<Text className="text-2xl text-white font-psemibold">
-									JS Mastery
+									{user.username}
 								</Text>
 							</View>
 							<View className="mt-1.5">

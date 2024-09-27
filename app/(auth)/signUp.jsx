@@ -7,8 +7,10 @@ import CustomButton from "../../components/CustomButton";
 import FormField from "../../components/FormField";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUp = () => {
+	const { setUser, setIsLoggedIn } = useGlobalContext();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [form, setForm] = useState({
 		username: "",
@@ -26,7 +28,8 @@ const SignUp = () => {
 				form.password,
 				form.username
 			);
-			// set it to global state
+			setUser(result);
+			setIsLoggedIn(true);
 			router.replace("/home");
 		} catch (error) {
 			Alert.alert("Error", error);

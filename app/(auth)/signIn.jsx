@@ -5,11 +5,13 @@ import React, { useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import FormField from "../../components/FormField";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useGlobalContext } from "../../context/GlobalProvider";
 import { images } from "../../constants";
-import { signIn } from "../../lib/appwrite";
+import { GetCurrentUser, signIn } from "../../lib/appwrite";
 
 const SignIn = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { setUser, setIsLoggedIn } = useGlobalContext();
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -17,22 +19,24 @@ const SignIn = () => {
 	const submit = async () => {
 		if (!form.email || !form.password) {
 			Alert.alert("Error", "Please fill in all the fields.");
-			return;  // Add return to prevent further execution
+			return; // Add return to prevent further execution
 		}
-		
+
 		setIsSubmitting(true);
-		
+
 		try {
 			await signIn(form.email, form.password);
-			// set it to global state
+			const result = await GetCurrentUser();
+			setUser(result);
+			setIsLoggedIn(true);
 			router.replace("/home");
 		} catch (error) {
-			Alert.alert("Error", error.message || "An error occurred.");  // Better error handling
+			Alert.alert("Error", error.message || "An error occurred."); // Better error handling
 		} finally {
 			setIsSubmitting(false);
 		}
 	};
-	
+
 	return (
 		<SafeAreaView className={"bg-primary h-full"}>
 			<ScrollView>
