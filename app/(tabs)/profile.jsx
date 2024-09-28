@@ -5,17 +5,17 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { getUserPosts, signOut } from "../../lib/appwrite";
 import React, { useState } from "react";
+import { getUserPosts, signOut } from "../../lib/appwrite";
 
 import EmptyState from "../../components/EmptyState";
+import InfoBox from "../../components/InfoBox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import VideoCard from "../../components/VideoCard";
+import { icons } from "../../constants";
+import { router } from "expo-router";
 import useAppwrite from "../../lib/useAppwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import { icons } from "../../constants";
-import InfoBox from "../../components/InfoBox";
-import { router } from "expo-router";
 
 const Profile = () => {
 	const { user, setUser, setIsLoggedIn } = useGlobalContext();
@@ -66,7 +66,7 @@ const Profile = () => {
 							titleStyles="text-lg"
 						/>
 
-						<View className="flex flex-row mt-5">
+						{/* <View className="flex flex-row mt-5">
 							<InfoBox
 								title={posts.length || 0}
 								subtitle="Posts"
@@ -78,7 +78,7 @@ const Profile = () => {
 								subtitle="Followers"
 								titleStyles="text-xl"
 							/>
-						</View>
+						</View> */}
 					</View>
 				)}
 				ListEmptyComponent={() => (
